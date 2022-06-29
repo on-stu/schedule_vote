@@ -4,8 +4,29 @@ Date.prototype.addDays = function (days) {
   return date;
 };
 
+const javascriptStyle = document.getElementById("javascriptStyle");
+
 const calendarDiv = document.querySelector("#calendar");
 const unavailableTime = new Set();
+
+function setListener() {
+  javascriptStyle.innerHTML = ``;
+  unavailableTime.forEach((time) => {
+    javascriptStyle.innerHTML += `.time${time.getTime()} {
+      background-color: #e67e22;
+    }\n`;
+  });
+}
+
+unavailableTime.add = function () {
+  Set.prototype.add.apply(this, arguments);
+  setListener();
+};
+
+unavailableTime.delete = function () {
+  Set.prototype.delete.apply(this, arguments);
+  setListener();
+};
 
 function displayDate(day) {
   const eachDate = document.createElement("div");
@@ -28,7 +49,8 @@ function displayTime(day, eachDate) {
     )}-${getDateString(day.getDate())}T${getTimeString(i)}`;
     const tempTime = new Date(dateArgs);
     const timeButton = document.createElement("button");
-    timeButton.addEventListener("click", timeButtonOnClick(tempTime));
+    timeButton.className = "time" + tempTime.getTime();
+    timeButton.addEventListener("click", () => timeButtonOnClick(tempTime));
     timeButton.innerText = getTimeString(tempTime.getHours());
     timeContainerDiv.appendChild(timeButton);
   }
