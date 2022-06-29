@@ -1,3 +1,7 @@
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:3000/");
+
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -7,26 +11,6 @@ Date.prototype.addDays = function (days) {
 const javascriptStyle = document.getElementById("javascriptStyle");
 
 const calendarDiv = document.querySelector("#calendar");
-const unavailableTime = new Set();
-
-function setListener() {
-  javascriptStyle.innerHTML = ``;
-  unavailableTime.forEach((time) => {
-    javascriptStyle.innerHTML += `.time${time.getTime()} {
-      background-color: #e67e22;
-    }\n`;
-  });
-}
-
-unavailableTime.add = function () {
-  Set.prototype.add.apply(this, arguments);
-  setListener();
-};
-
-unavailableTime.delete = function () {
-  Set.prototype.delete.apply(this, arguments);
-  setListener();
-};
 
 function displayDate(day) {
   const eachDate = document.createElement("div");
@@ -101,18 +85,23 @@ function getDayString(day) {
 }
 
 function timeButtonOnClick(time) {
-  if (unavailableTime.has(time)) {
-    unavailableTime.delete(time);
-  } else {
-    unavailableTime.add(time);
-  }
+  socket.emit("onTimeButtonClicked", time);
 }
 
 const today = new Date();
-const restDaysThisWeek = 8 - today.getDate();
 const nextMonday = today.addDays(5);
 
 for (var i = 0; i < 7; i++) {
   let tempDay = nextMonday.addDays(i);
   displayDate(tempDay);
 }
+
+socket.on("set_changed", ({ unavailableTime }) => {
+  javascriptStyle.innerHTML = ``;
+  unavailableTime.forEach((time) => {
+    const tempTime = new Date(time);
+    javascriptStyle.innerHTML += `.time${tempTime.getTime()} {
+      background-color: #e67e22;
+    }\n`;
+  });
+});
