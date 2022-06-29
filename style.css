@@ -1,0 +1,69 @@
+*{
+  padding: 0;
+  margin: 0;
+  font-family: Pretendard;
+}
+
+body{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #2980b9;
+  
+}
+
+h1{
+  margin-top: 20px;
+  color: white;
+}
+
+h2{
+  margin-bottom: 20px;
+  margin-bottom: 5px;
+}
+
+#calendar{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  row-gap: 40px;
+}
+
+.timeContainer{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+ row-gap: 5px;
+}
+
+.timeContainer > button{
+  width: 100%;
+  height: 50px;
+  outline: none;
+  border: none;
+}
+
+
+@media screen and (min-width: 768px) {
+  #calendar{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 10px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .timeContainer > button{
+    cursor: pointer;
+  }
+}
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* { 
+font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+}
