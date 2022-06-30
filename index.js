@@ -3,6 +3,9 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(express.static(__dirname + "/public"));
 

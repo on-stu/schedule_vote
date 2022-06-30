@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000/");
+const socket = io("http://3.38.247.81:3000/");
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
