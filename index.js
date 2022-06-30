@@ -16,7 +16,11 @@ app.get("", (req, res) => {
 let unavailableItem = new Array();
 let unavailableTime = new Set();
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
+});
 io.on("connection", (socket) => {
   io.emit("set_changed", { unavailableTime: Array.from(unavailableTime) });
   socket.on("onTimeButtonClicked", (time) => {
@@ -24,12 +28,7 @@ io.on("connection", (socket) => {
       time,
       sid: socket.id,
     };
-    console.log(
-      timeWithSid,
-      unavailableItem.some(
-        (elm) => elm.time === timeWithSid.time && elm.sid && timeWithSid.sid
-      )
-    );
+
     if (
       unavailableItem.some(
         (elm) => elm.time === timeWithSid.time && elm.sid === timeWithSid.sid

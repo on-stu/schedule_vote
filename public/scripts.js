@@ -86,8 +86,12 @@ function timeButtonOnClick(time) {
   socket.emit("onTimeButtonClicked", time);
 }
 
+function getNextMondayDelta(day) {
+  return 8 - day;
+}
+
 const today = new Date();
-const nextMonday = today.addDays(5);
+const nextMonday = today.addDays(getNextMondayDelta(today.getDay()));
 
 for (var i = 0; i < 7; i++) {
   let tempDay = nextMonday.addDays(i);
