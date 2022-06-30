@@ -10,7 +10,7 @@ app.get("", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-const unavailableItem = new Array();
+let unavailableItem = new Array();
 let unavailableTime = new Set();
 
 const io = new Server(server);
@@ -21,12 +21,20 @@ io.on("connection", (socket) => {
       time,
       sid: socket.id,
     };
-    if (
+    console.log(
+      timeWithSid,
       unavailableItem.some(
         (elm) => elm.time === timeWithSid.time && elm.sid && timeWithSid.sid
       )
+    );
+    if (
+      unavailableItem.some(
+        (elm) => elm.time === timeWithSid.time && elm.sid === timeWithSid.sid
+      )
     ) {
-      unavailableItem.pop(timeWithSid);
+      unavailableItem = unavailableItem.filter(
+        (elm) => elm.time !== timeWithSid.time || elm.sid !== timeWithSid.sid
+      );
     } else {
       unavailableItem.push(timeWithSid);
     }
